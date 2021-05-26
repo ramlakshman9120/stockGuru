@@ -83,7 +83,7 @@ for each_filePath in filePaths:
 # Sidebar - Sector selection
 #sorted_sector_unique = sorted( df['Sector'].unique() )
 sorted_sector_unique = sorted(list_of_file_names)
-selected_sector = st.sidebar.multiselect('Sector', sorted_sector_unique, sorted_sector_unique)
+selected_sector = st.sidebar.multiselect('Sector', sorted_sector_unique, sorted_sector_unique[0])
 print("The selected {} from list {}".format(selected_sector,sorted_sector_unique))
 
 if uploaded_file is not None:
@@ -118,10 +118,9 @@ print("The type of input_df['mcPiotski'] is :{}".format(type(input_df['mcPiotski
 #input_df[['mcStrength', 'mcStrength', 'mcPiotski']] = input_df[['mcStrength', 'mcStrength', 'mcPiotski']].apply(pd.to_numeric)
 
 
-st.header('Display Companies based on range of companies')
-num_company = st.sidebar.slider('Number of Companies', 0, len(input_df))
-#first_n_companies = input_df.head(num_company);
-st.dataframe(input_df.head(num_company))
+#st.header('Display Companies based on range of companies')
+#num_company = st.sidebar.slider('Number of Companies', 0, len(input_df))
+#st.dataframe(input_df.head(num_company))
 
 
 #st.write('Select three known variables:')
@@ -216,13 +215,13 @@ input_df['mcStrength'] = input_df['mcStrength'].astype(int)
 #input_df['mcStrength'] = input_df['mcStrength'].apply(pd.to_numeric)
 #input_df['mcStrength'] = input_df['mcStrength'].astype('Int64')
 
-mcStrength_selected = st.sidebar.slider('Filter mcStrength greater than and equal to:', min(input_df['mcStrength'].tolist()), max(input_df["mcStrength"].tolist()), value = [int(min(input_df['mcStrength'].tolist())/2), int(max(input_df["mcStrength"].tolist())/2)])
+mcStrength_selected = st.sidebar.slider('Filter mcStrength greater than and equal to:', min(input_df['mcStrength'].tolist()), max(input_df["mcStrength"].tolist()), value = [min(input_df['mcStrength'].tolist()), max(input_df["mcStrength"].tolist())])
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcStrength']>=mcStrength_selected]
 #st.dataframe(input_df[input_df['mcStrength']>mcStrength_selected])
 
 #input_df['mcPiotski'] = input_df['mcPiotski'].astype(int)
-mcPiotski_selected = st.sidebar.slider('Filter mcPiotski greater than and equal to:', min(input_df['mcPiotski'].tolist()), max(input_df["mcPiotski"].tolist()), value = [int(min(input_df['mcPiotski'].tolist())/2), int(max(input_df["mcPiotski"].tolist())/2)])
+mcPiotski_selected = st.sidebar.slider('Filter mcPiotski greater than and equal to:', min(input_df['mcPiotski'].tolist()), max(input_df["mcPiotski"].tolist()), value = [min(input_df['mcPiotski'].tolist()), max(input_df["mcPiotski"].tolist())])
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcPiotski']>=mcPiotski_selected]
 #st.dataframe(input_df[input_df['mcPiotski']>mcPiotski_selected])
