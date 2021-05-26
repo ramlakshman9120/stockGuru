@@ -1,6 +1,6 @@
 import streamlit as st
-import xlrd
 import pandas as pd
+import base64
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
@@ -55,18 +55,18 @@ sorted_sector_unique = sorted( df['Sector'].unique() )
 selected_sector = st.sidebar.multiselect('Sector', sorted_sector_unique, sorted_sector_unique)
 
 if uploaded_file is not None:
-    print(uploaded_file)
     input_df = pd.read_excel(uploaded_file, sheet_name="Peer Comparision")
 else:
     #df[df['Sector'] == selected_sector]
     #print(os.path.join(str(df['Path'])[0]))
     #df[df['Sector'].str.match(selected_sector)]
     #df[df['Sector'] in selected_sector]
-	
+
+
     #df2 = df[df['Sector'].str.contains(selected_sector[0])]
     #path_of_selected_sector = df2['Path'].tolist()
     #input_df = pd.read_excel(os.path.join(path_of_selected_sector[0]), sheet_name="Peer Comparision")
-    input_df = pd.read_excel (r'./Chemicals.xlsx', sheet_name="Peer Comparision")
+    input_df = pd.read_excel(os.path.join(os.getcwd(),'Auto Ancillaries.xlsx'), sheet_name="Peer Comparision")
     #st.write(input_df)
 input_df['mcStrength']=input_df['mcStrength'].apply(lambda x: find_number(x))
 input_df['mcPassPrec']=input_df['mcPassPrec'].apply(lambda x: find_number(x))
