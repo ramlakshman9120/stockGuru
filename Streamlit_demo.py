@@ -77,7 +77,7 @@ filePaths = glob.glob(path + "/*.xlsx")
 
 list_of_file_names = list()
 for each_filePath in filePaths:
-    list_of_file_names.append(os.path.basename(each_filePath))
+    list_of_file_names.append(os.path.basename(each_filePath.split('.')[0]))
     print(list_of_file_names)
 
 # Sidebar - Sector selection
@@ -96,7 +96,7 @@ else:
     #df2 = df[df['Sector'].str.contains(selected_sector[0])]
     #path_of_selected_sector = df2['Path'].tolist()
     #input_df = pd.read_excel(os.path.join(os.getcwd(),str(selected_sector),".xlsx"), sheet_name="Peer Comparision")
-    input_df = pd.read_excel(os.path.join(os.getcwd(),selected_sector[0]), sheet_name="Peer Comparision")
+    input_df = pd.read_excel(os.path.join(os.getcwd(),selected_sector[0]+'.xlsx'), sheet_name="Peer Comparision")
     #st.write(input_df)
 
 input_df.replace(',','', regex=True, inplace=True)
