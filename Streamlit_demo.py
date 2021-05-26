@@ -42,14 +42,15 @@ df = load_data2()
 #Convert all the column values to integer in dataframe
 def convertEachColumnToInteger(input_df):
     #for each_column in input_df.columns:
-    try:
-        #print(df[each_column])
-        #df[each_column] = pd.to_numeric(df[each_column])#astype(int)
-        input_df[[input_df.columns]] = input_df[[input_df.columns]].apply(pd.to_numeric)
-        print("Converted the column to integer")#.format(each_column))
-    except:
-        print("Cannot convert..")#format(each_column))
-        #continue
+    #print(df[each_column])
+    #df[each_column] = pd.to_numeric(df[each_column])#astype(int)
+    for each_column in input_df.columns:
+        try:
+            input_df[each_column] = input_df[each_column].apply(pd.to_numeric)
+            print("Converted the column to integer: {}".format(each_column))#.format(each_column))
+        except:
+            print("Cannot convert column :{} to integer".format(each_column))#format(each_column))
+            continue
     #input_df['Mar Cap Rs.Cr.'] = input_df['Mar Cap Rs.Cr.'].astype(int)
     #input_df['CMP Rs.'] = input_df['CMP Rs.'].astype(int)
     return input_df
@@ -73,7 +74,6 @@ selected_sector = st.sidebar.multiselect('Sector', sorted_sector_unique, sorted_
 
 if uploaded_file is not None:
     input_df = pd.read_excel(uploaded_file, sheet_name="Peer Comparision")
-    input_df = convertEachColumnToInteger(input_df)
 else:
     #df[df['Sector'] == selected_sector]
     #print(os.path.join(str(df['Path'])[0]))
@@ -83,19 +83,24 @@ else:
     path_of_selected_sector = df2['Path'].tolist()
     input_df = pd.read_excel(os.path.join(path_of_selected_sector[0]), sheet_name="Peer Comparision")
     #st.write(input_df)
-input_df['mcStrength']=input_df['mcStrength'].apply(lambda x: find_number(x))
-input_df['mcPassPrec']=input_df['mcPassPrec'].apply(lambda x: find_number(x))
-#input_df['mcPiotski']=input_df['mcPiotski'].apply(lambda x: find_number(x))
-#Remove commas in the table and save changes to dataframe
+
 input_df.replace(',','', regex=True, inplace=True)
 #Fill nan with zero
 input_df=input_df.fillna(0)
+input_df['mcStrength']=input_df['mcStrength'].apply(lambda x: find_number(x))
+input_df['mcPassPrec']=input_df['mcPassPrec'].apply(lambda x: find_number(x))
+input_df = convertEachColumnToInteger(input_df)
+print("The type of input_df['mcStrength'] is :{}".format(type(input_df['mcStrength'].tolist())))
+print("The type of input_df['mcPassPrec'] is :{}".format(type(input_df['mcPassPrec'].tolist())))
+print("The type of input_df['mcPiotski'] is :{}".format(type(input_df['mcPiotski'].tolist())))
+#input_df['mcPiotski']=input_df['mcPiotski'].apply(lambda x: find_number(x))
+#Remove commas in the table and save changes to dataframe
 #Convert all the values to integers
 #input_df = input_df.apply(pd.to_numeric)
 # convert just columns "a" and "b"
-input_df['Mar Cap Rs.Cr.'] = input_df['Mar Cap Rs.Cr.'].astype(int)
-input_df['CMP Rs.'] = input_df['CMP Rs.'].astype(int)
-input_df[['mcStrength', 'mcStrength', 'mcPiotski']] = input_df[['mcStrength', 'mcStrength', 'mcPiotski']].apply(pd.to_numeric)
+#input_df['Mar Cap Rs.Cr.'] = input_df['Mar Cap Rs.Cr.'].astype(int)
+#input_df['CMP Rs.'] = input_df['CMP Rs.'].astype(int)
+#input_df[['mcStrength', 'mcStrength', 'mcPiotski']] = input_df[['mcStrength', 'mcStrength', 'mcPiotski']].apply(pd.to_numeric)
 
 
 st.header('Display Companies based on range of companies')
@@ -196,20 +201,21 @@ input_df['mcStrength'] = input_df['mcStrength'].astype(int)
 #input_df['mcStrength'] = input_df['mcStrength'].apply(pd.to_numeric)
 #input_df['mcStrength'] = input_df['mcStrength'].astype('Int64')
 
-mcStrength_selected = st.sidebar.slider('Filter mcStrength greater than and equal to:', input_df['mcStrength'].min(), input_df["mcStrength"].max())
+mcStrength_selected = st.sidebar.slider('Filter mcStrength greater than and equal to:', min(input_df['mcStrength'].tolist()), max(input_df["mcStrength"].tolist()))
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcStrength']>=mcStrength_selected]
 #st.dataframe(input_df[input_df['mcStrength']>mcStrength_selected])
 
-input_df['mcPiotski'] = input_df['mcPiotski'].astype(int)
-mcPiotski_selected = st.sidebar.slider('Filter mcPiotski greater than and equal to:', input_df['mcPiotski'].min(), input_df["mcPiotski"].max())
+#input_df['mcPiotski'] = input_df['mcPiotski'].astype(int)
+mcPiotski_selected = st.sidebar.slider('Filter mcPiotski greater than and equal to:', min(input_df['mcPiotski'].tolist()), max(input_df["mcPiotski"].tolist()))
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcPiotski']>=mcPiotski_selected]
 #st.dataframe(input_df[input_df['mcPiotski']>mcPiotski_selected])
 
-input_df['mcPassPrec'] = input_df['mcPassPrec'].apply(pd.to_numeric)
-input_df['mcPassPrec'] = input_df['mcPassPrec'].astype('Int64')
-mcPassPrec_selected = st.sidebar.slider('Filter mcPassPrec greater than and equal to:', input_df['mcPassPrec'].min(), input_df["mcPassPrec"].max())
+#input_df['mcPassPrec'] = input_df['mcPassPrec'].apply(pd.to_numeric)
+#input_df['mcPassPrec'] = input_df['mcPassPrec'].astype('Int64')
+#input_df['mcPassPrec'] = input_df['mcPassPrec'].astype(int)
+mcPassPrec_selected = st.sidebar.slider('Filter mcPassPrec greater than and equal to:', min(input_df['mcPassPrec'].tolist()), max(input_df["mcPassPrec"].tolist()))
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcPassPrec']>=mcPassPrec_selected]
 #st.dataframe(input_df[input_df['mcPassPrec']>mcPassPrec_selected])
