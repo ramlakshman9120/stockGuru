@@ -7,6 +7,7 @@ import numpy as np
 import yfinance as yf
 import os
 import re as re
+import glob
 
 st.title('STOCK-GURU GOVIND')
 
@@ -68,9 +69,22 @@ def find_number(text):
 
 #df['mcStrength']=df['mcStrength'].apply(lambda x: find_number(x))
 
+# get data file names
+path = os.getcwd()
+#filenames = glob.glob("/*.xlsx")
+
+filePaths = glob.glob(path + "/*.xlsx")
+
+list_of_file_names = list()
+for each_filePath in filePaths:
+    list_of_file_names.append(os.path.basename(each_filePath))
+    print(list_of_file_names)
+
 # Sidebar - Sector selection
-sorted_sector_unique = sorted( df['Sector'].unique() )
+#sorted_sector_unique = sorted( df['Sector'].unique() )
+sorted_sector_unique = sorted(list_of_file_names)
 selected_sector = st.sidebar.multiselect('Sector', sorted_sector_unique, sorted_sector_unique)
+print("The selected {} from list {}".format(selected_sector,sorted_sector_unique))
 
 if uploaded_file is not None:
     input_df = pd.read_excel(uploaded_file, sheet_name="Peer Comparision")
@@ -79,9 +93,10 @@ else:
     #print(os.path.join(str(df['Path'])[0]))
     #df[df['Sector'].str.match(selected_sector)]
     #df[df['Sector'] in selected_sector]
-    df2 = df[df['Sector'].str.contains(selected_sector[0])]
-    path_of_selected_sector = df2['Path'].tolist()
-    input_df = pd.read_excel(os.path.join(path_of_selected_sector[0]), sheet_name="Peer Comparision")
+    #df2 = df[df['Sector'].str.contains(selected_sector[0])]
+    #path_of_selected_sector = df2['Path'].tolist()
+    #input_df = pd.read_excel(os.path.join(os.getcwd(),str(selected_sector),".xlsx"), sheet_name="Peer Comparision")
+    input_df = pd.read_excel(os.path.join(os.getcwd(),selected_sector[0]), sheet_name="Peer Comparision")
     #st.write(input_df)
 
 input_df.replace(',','', regex=True, inplace=True)
