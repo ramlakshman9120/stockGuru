@@ -123,19 +123,14 @@ print("The type of input_df['mcPiotski'] is :{}".format(type(input_df['mcPiotski
 #st.dataframe(input_df.head(num_company))
 
 
-#st.write('Select three known variables:')
-MICROCAP = st.sidebar.checkbox('MICROCAP')
-#if MICROCAP is True:
-#    input_df[input_df['Mar Cap Rs.Cr.']<2000]
-SMALLCAP = st.sidebar.checkbox('SMALLCAP')
-#if SMALLCAP is True:
-#    input_df[input_df['Mar Cap Rs.Cr.']>2000 & input_df['Mar Cap Rs.Cr.']<5000 ]
-MIDCAP = st.sidebar.checkbox('MIDCAP')
-#if MIDCAP is True:
-#    input_df[input_df['Mar Cap Rs.Cr.']>5000 & input_df['Mar Cap Rs.Cr.']<20000 ]
-LARGECAP = st.sidebar.checkbox('LARGECAP')
-#if LARGECAP is True:
-#    input_df[input_df['Mar Cap Rs.Cr.']>20000]
+#MICROCAP = st.sidebar.checkbox('MICROCAP')
+#SMALLCAP = st.sidebar.checkbox('SMALLCAP')
+#MIDCAP = st.sidebar.checkbox('MIDCAP')
+#LARGECAP = st.sidebar.checkbox('LARGECAP')
+
+marketCap_selected = st.sidebar.slider('Filter Mar Cap Rs.Cr. in range:', min(input_df['Mar Cap Rs.Cr.'].tolist()), max(input_df["Mar Cap Rs.Cr."].tolist()), value = [min(input_df['Mar Cap Rs.Cr.'].tolist()), max(input_df["Mar Cap Rs.Cr."].tolist())])
+
+peg_selected = st.sidebar.slider('Filter PEG in range:', min(input_df['PEG'].tolist()), max(input_df["PEG"].tolist()), value = [min(input_df['PEG'].tolist()), max(input_df["PEG"].tolist())])
 
 
 #else:
@@ -215,13 +210,13 @@ input_df['mcStrength'] = input_df['mcStrength'].astype(int)
 #input_df['mcStrength'] = input_df['mcStrength'].apply(pd.to_numeric)
 #input_df['mcStrength'] = input_df['mcStrength'].astype('Int64')
 
-mcStrength_selected = st.sidebar.slider('Filter mcStrength greater than and equal to:', min(input_df['mcStrength'].tolist()), max(input_df["mcStrength"].tolist()), value = [min(input_df['mcStrength'].tolist()), max(input_df["mcStrength"].tolist())])
+mcStrength_selected = st.sidebar.slider('Filter mcStrength in range:', min(input_df['mcStrength'].tolist()), max(input_df["mcStrength"].tolist()), value = [min(input_df['mcStrength'].tolist()), max(input_df["mcStrength"].tolist())])
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcStrength']>=mcStrength_selected]
 #st.dataframe(input_df[input_df['mcStrength']>mcStrength_selected])
 
 #input_df['mcPiotski'] = input_df['mcPiotski'].astype(int)
-mcPiotski_selected = st.sidebar.slider('Filter mcPiotski greater than and equal to:', min(input_df['mcPiotski'].tolist()), max(input_df["mcPiotski"].tolist()), value = [min(input_df['mcPiotski'].tolist()), max(input_df["mcPiotski"].tolist())])
+mcPiotski_selected = st.sidebar.slider('Filter mcPiotski in range:', min(input_df['mcPiotski'].tolist()), max(input_df["mcPiotski"].tolist()), value = [min(input_df['mcPiotski'].tolist()), max(input_df["mcPiotski"].tolist())])
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcPiotski']>=mcPiotski_selected]
 #st.dataframe(input_df[input_df['mcPiotski']>mcPiotski_selected])
@@ -229,16 +224,20 @@ mcPiotski_selected = st.sidebar.slider('Filter mcPiotski greater than and equal 
 #input_df['mcPassPrec'] = input_df['mcPassPrec'].apply(pd.to_numeric)
 #input_df['mcPassPrec'] = input_df['mcPassPrec'].astype('Int64')
 #input_df['mcPassPrec'] = input_df['mcPassPrec'].astype(int)
-mcPassPrec_selected = st.sidebar.slider('Filter mcPassPrec greater than and equal to:', min(input_df['mcPassPrec'].tolist()), max(input_df["mcPassPrec"].tolist()), value = [min(input_df['mcPassPrec'].tolist()), max(input_df["mcPassPrec"].tolist())])
+mcPassPrec_selected = st.sidebar.slider('Filter mcPassPrec in range:', min(input_df['mcPassPrec'].tolist()), max(input_df["mcPassPrec"].tolist()), value = [min(input_df['mcPassPrec'].tolist()), max(input_df["mcPassPrec"].tolist())])
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcPassPrec']>=mcPassPrec_selected]
 #st.dataframe(input_df[input_df['mcPassPrec']>mcPassPrec_selected])
 
 
-if st.button('Filter with given parameters'):
+if st.sidebar.button('Filter with given parameters'):
     st.header('Filtered mcStrength, mcPiotski,  mcPassPrec:')
-    input_df2 = input_df[input_df['mcStrength']>=mcStrength_selected[0]]
-    input_df2 = input_df[input_df['mcStrength']<=mcStrength_selected[1]]
+    input_df2 = input_df[input_df['Mar Cap Rs.Cr.']>=marketCap_selected[0]]
+    input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']<=marketCap_selected[1]]
+    input_df2 = input_df2[input_df2['PEG']>=peg_selected[0]]
+    input_df2 = input_df2[input_df2['PEG']<=peg_selected[1]]
+    input_df2 = input_df2[input_df['mcStrength']>=mcStrength_selected[0]]
+    input_df2 = input_df2[input_df2['mcStrength']<=mcStrength_selected[1]]
     input_df2 = input_df2[input_df2['mcPassPrec']>=mcPassPrec_selected[0]]
     input_df2 = input_df2[input_df2['mcPassPrec']<=mcPassPrec_selected[1]]
     input_df2 = input_df2[input_df2['mcPiotski']>=mcPiotski_selected[0]]
@@ -246,16 +245,16 @@ if st.button('Filter with given parameters'):
     # shift column 'Name' to first position
     # insert column using insert(position,column_name,
     # first_column) function
-    if LARGECAP is True:
-        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']>20000]
-    if MIDCAP is True:
-        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']>5000]
-        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']<20000]
-    if SMALLCAP is True:
-        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']>2000]
-        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']<5000]
-    if MICROCAP is True:
-        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']<2000]
+#    if LARGECAP is True:
+#        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']>20000]
+#    if MIDCAP is True:
+#        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']>5000]
+#        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']<20000]
+#    if SMALLCAP is True:
+#        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']>2000]
+#        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']<5000]
+#    if MICROCAP is True:
+#        input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']<2000]
 
     first_column = input_df2.pop('mcStrength')
     input_df2.insert(4, 'mcStrength', first_column)
@@ -277,14 +276,14 @@ selected_company_names = st.sidebar.multiselect('Select Name of company', compan
 df_selected_company_names = input_df.loc[((input_df['Name'].isin(selected_company_names)))]
 
 
-if st.button('Display Companies in Selected Sector'):
-    st.header('Display Companies in Selected Sector')
+if st.sidebar.button('Display Companies in Selected Sector'):
+    st.header('Display paramters of Selected Sectors')
     st.write('Data Dimension: ' + str(df_selected_sector.shape[0]) + ' rows and ' + str(df_selected_sector.shape[1]) + ' columns.')
     st.dataframe(df_selected_company_names)
 
-if st.button('Show Balance sheets of selected Stocks') and False:
-    for each_selected_company in list(df_selected_company_names.Name): #[:num_company]:
-	    st.header('Stock Balance Sheets {0}'.format(each_selected_company))
-	    display_balance_sheet(each_selected_company)
+#if st.button('Show Balance sheets of selected Stocks') and False:
+#    for each_selected_company in list(df_selected_company_names.Name): #[:num_company]:
+#	    st.header('Stock Balance Sheets {0}'.format(each_selected_company))
+#	    display_balance_sheet(each_selected_company)
 
 
