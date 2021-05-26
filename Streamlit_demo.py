@@ -216,13 +216,13 @@ input_df['mcStrength'] = input_df['mcStrength'].astype(int)
 #input_df['mcStrength'] = input_df['mcStrength'].apply(pd.to_numeric)
 #input_df['mcStrength'] = input_df['mcStrength'].astype('Int64')
 
-mcStrength_selected = st.sidebar.slider('Filter mcStrength greater than and equal to:', min(input_df['mcStrength'].tolist()), max(input_df["mcStrength"].tolist()))
+mcStrength_selected = st.sidebar.slider('Filter mcStrength greater than and equal to:', min(input_df['mcStrength'].tolist()), max(input_df["mcStrength"].tolist()), value = [int(min(input_df['mcStrength'].tolist())/2), int(max(input_df["mcStrength"].tolist())/2)])
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcStrength']>=mcStrength_selected]
 #st.dataframe(input_df[input_df['mcStrength']>mcStrength_selected])
 
 #input_df['mcPiotski'] = input_df['mcPiotski'].astype(int)
-mcPiotski_selected = st.sidebar.slider('Filter mcPiotski greater than and equal to:', min(input_df['mcPiotski'].tolist()), max(input_df["mcPiotski"].tolist()))
+mcPiotski_selected = st.sidebar.slider('Filter mcPiotski greater than and equal to:', min(input_df['mcPiotski'].tolist()), max(input_df["mcPiotski"].tolist()), value = [int(min(input_df['mcPiotski'].tolist())/2), int(max(input_df["mcPiotski"].tolist())/2)])
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcPiotski']>=mcPiotski_selected]
 #st.dataframe(input_df[input_df['mcPiotski']>mcPiotski_selected])
@@ -230,7 +230,7 @@ mcPiotski_selected = st.sidebar.slider('Filter mcPiotski greater than and equal 
 #input_df['mcPassPrec'] = input_df['mcPassPrec'].apply(pd.to_numeric)
 #input_df['mcPassPrec'] = input_df['mcPassPrec'].astype('Int64')
 #input_df['mcPassPrec'] = input_df['mcPassPrec'].astype(int)
-mcPassPrec_selected = st.sidebar.slider('Filter mcPassPrec greater than and equal to:', min(input_df['mcPassPrec'].tolist()), max(input_df["mcPassPrec"].tolist()))
+mcPassPrec_selected = st.sidebar.slider('Filter mcPassPrec greater than and equal to:', min(input_df['mcPassPrec'].tolist()), max(input_df["mcPassPrec"].tolist()), value = [min(input_df['mcPassPrec'].tolist()), max(input_df["mcPassPrec"].tolist())])
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcPassPrec']>=mcPassPrec_selected]
 #st.dataframe(input_df[input_df['mcPassPrec']>mcPassPrec_selected])
@@ -238,9 +238,12 @@ mcPassPrec_selected = st.sidebar.slider('Filter mcPassPrec greater than and equa
 
 if st.button('Filter with given parameters'):
     st.header('Filtered mcStrength, mcPiotski,  mcPassPrec:')
-    input_df2 = input_df[input_df['mcStrength']>=mcStrength_selected]
-    input_df2 = input_df2[input_df2['mcPassPrec']>=mcPassPrec_selected]
-    input_df2 = input_df2[input_df2['mcPiotski']>=mcPiotski_selected]
+    input_df2 = input_df[input_df['mcStrength']>=mcStrength_selected[0]]
+    input_df2 = input_df[input_df['mcStrength']<=mcStrength_selected[1]]
+    input_df2 = input_df2[input_df2['mcPassPrec']>=mcPassPrec_selected[0]]
+    input_df2 = input_df2[input_df2['mcPassPrec']<=mcPassPrec_selected[1]]
+    input_df2 = input_df2[input_df2['mcPiotski']>=mcPiotski_selected[0]]
+    input_df2 = input_df2[input_df2['mcPiotski']<=mcPiotski_selected[1]]
     # shift column 'Name' to first position
     # insert column using insert(position,column_name,
     # first_column) function
