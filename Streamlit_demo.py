@@ -61,12 +61,9 @@ else:
     #print(os.path.join(str(df['Path'])[0]))
     #df[df['Sector'].str.match(selected_sector)]
     #df[df['Sector'] in selected_sector]
-
-
-    #df2 = df[df['Sector'].str.contains(selected_sector[0])]
-    #path_of_selected_sector = df2['Path'].tolist()
-    #input_df = pd.read_excel(os.path.join(path_of_selected_sector[0]), sheet_name="Peer Comparision")
-    input_df = pd.read_excel(os.path.join(os.getcwd(),'Auto Ancillaries.xlsx'), sheet_name="Peer Comparision")
+    df2 = df[df['Sector'].str.contains(selected_sector[0])]
+    path_of_selected_sector = df2['Path'].tolist()
+    input_df = pd.read_excel(os.path.join(path_of_selected_sector[0]), sheet_name="Peer Comparision")
     #st.write(input_df)
 input_df['mcStrength']=input_df['mcStrength'].apply(lambda x: find_number(x))
 input_df['mcPassPrec']=input_df['mcPassPrec'].apply(lambda x: find_number(x))
