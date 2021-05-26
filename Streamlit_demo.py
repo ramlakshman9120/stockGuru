@@ -265,24 +265,26 @@ if st.button('Filter with given parameters'):
     input_df2.insert(6, 'mcPiotski', first_column)
     # In this case default index is exist 
     input_df2.reset_index(inplace = True)
+    st.header('{}/{} companies met the search criteria:'.format(len(input_df2),len(input_df)))
     st.dataframe(input_df2)
     #for each_selected_company in list(df_selected_company_names.Name): #[:num_company]:
     #    st.header('Stock Balance Sheets {0}'.format(each_selected_company))
     #    write_excel_data()
 
 company_names = sorted( input_df['Name'])
-selected_company_names = st.sidebar.multiselect('Select Name of company', company_names, company_names)
+selected_company_names = st.sidebar.multiselect('Select Name of company', company_names, company_names[0])
 	
 df_selected_company_names = input_df.loc[((input_df['Name'].isin(selected_company_names)))]
-
-if st.button('Show Balance sheets of selected Stocks'):
-    for each_selected_company in list(df_selected_company_names.Name): #[:num_company]:
-	    st.header('Stock Balance Sheets {0}'.format(each_selected_company))
-	    display_balance_sheet(each_selected_company)
 
 
 if st.button('Display Companies in Selected Sector'):
     st.header('Display Companies in Selected Sector')
     st.write('Data Dimension: ' + str(df_selected_sector.shape[0]) + ' rows and ' + str(df_selected_sector.shape[1]) + ' columns.')
     st.dataframe(df_selected_company_names)
+
+if st.button('Show Balance sheets of selected Stocks') and False:
+    for each_selected_company in list(df_selected_company_names.Name): #[:num_company]:
+	    st.header('Stock Balance Sheets {0}'.format(each_selected_company))
+	    display_balance_sheet(each_selected_company)
+
 
