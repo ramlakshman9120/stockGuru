@@ -55,6 +55,7 @@ sorted_sector_unique = sorted( df['Sector'].unique() )
 selected_sector = st.sidebar.multiselect('Sector', sorted_sector_unique, sorted_sector_unique)
 
 if uploaded_file is not None:
+    print(uploaded_file)
     input_df = pd.read_excel(uploaded_file, sheet_name="Peer Comparision")
 else:
     #df[df['Sector'] == selected_sector]
