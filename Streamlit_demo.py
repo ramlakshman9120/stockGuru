@@ -38,6 +38,23 @@ def load_data2():
 
 
 df = load_data2()
+
+#Convert all the column values to integer in dataframe
+def convertEachColumnToInteger(input_df):
+    #for each_column in input_df.columns:
+    try:
+        #print(df[each_column])
+        #df[each_column] = pd.to_numeric(df[each_column])#astype(int)
+        input_df[[input_df.columns]] = input_df[[input_df.columns]].apply(pd.to_numeric)
+        print("Converted the column to integer")#.format(each_column))
+    except:
+        print("Cannot convert..")#format(each_column))
+        #continue
+    #input_df['Mar Cap Rs.Cr.'] = input_df['Mar Cap Rs.Cr.'].astype(int)
+    #input_df['CMP Rs.'] = input_df['CMP Rs.'].astype(int)
+    return input_df
+
+
 sector = df.groupby('Sector')
 
 
@@ -56,6 +73,7 @@ selected_sector = st.sidebar.multiselect('Sector', sorted_sector_unique, sorted_
 
 if uploaded_file is not None:
     input_df = pd.read_excel(uploaded_file, sheet_name="Peer Comparision")
+    input_df = convertEachColumnToInteger(input_df)
 else:
     #df[df['Sector'] == selected_sector]
     #print(os.path.join(str(df['Path'])[0]))
@@ -172,30 +190,12 @@ def display_balance_sheet(name):
     #price_plot(i)
    # ypoints = np.array([3, 8, 1, 10])
    # plt.plot(ypoints, linewidth = '20.5')
-   # plt.show()
-
-#Convert all the column values to integer in dataframe
-def convertEachColumnToInteger(input_df):
-    #for each_column in input_df.columns:
-    try:
-        #print(df[each_column])
-        #df[each_column] = pd.to_numeric(df[each_column])#astype(int)
-        df[[input_df.columns]] = df[[input_df.columns]].apply(pd.to_numeric)
-        print("Converted the column to integer")#.format(each_column))
-    except:
-        print("Cannot convert..")#format(each_column))
-        #continue
-    #input_df['Mar Cap Rs.Cr.'] = input_df['Mar Cap Rs.Cr.'].astype(int)
-    #input_df['CMP Rs.'] = input_df['CMP Rs.'].astype(int)
-    return input_df
-   
-
+   # plt.show()   
 
 input_df['mcStrength'] = input_df['mcStrength'].astype(int)
 #input_df['mcStrength'] = input_df['mcStrength'].apply(pd.to_numeric)
 #input_df['mcStrength'] = input_df['mcStrength'].astype('Int64')
 
-input_df = convertEachColumnToInteger(input_df)
 mcStrength_selected = st.sidebar.slider('Filter mcStrength greater than and equal to:', input_df['mcStrength'].min(), input_df["mcStrength"].max())
 #first_n_companies = input_df.head(num_company);
 #input_df2 = input_df[input_df['mcStrength']>=mcStrength_selected]
