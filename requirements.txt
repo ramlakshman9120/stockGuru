@@ -1,5 +1,5 @@
 pip==21.1.2
-chromedriver==90.0.4430.24
+chromedriver
 selenium==3.141.0
 matplotlib==3.4.2
 pandas==1.2.1
