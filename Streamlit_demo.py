@@ -8,6 +8,7 @@ import yfinance as yf
 import os
 import re as re
 import glob
+import ChromeDriverPython as cd
 
 st.title('STOCK-GURU GOVIND')
 
@@ -36,7 +37,6 @@ def load_data2():
 	# Create DataFrame  
 	df = pd.DataFrame(data)  
 	return df
-
 
 df = load_data2()
 
@@ -285,5 +285,9 @@ if st.sidebar.button('Display Companies in Selected Sector'):
 #    for each_selected_company in list(df_selected_company_names.Name): #[:num_company]:
 #	    st.header('Stock Balance Sheets {0}'.format(each_selected_company))
 #	    display_balance_sheet(each_selected_company)
+
+
+if st.button('Scrap data:'):
+    cd.runChromeDriver()
 
 
