@@ -103,6 +103,7 @@ input_df.replace(',','', regex=True, inplace=True)
 #Fill nan with zero
 input_df=input_df.fillna(0)
 input_df['mcStrength']=input_df['mcStrength'].apply(lambda x: find_number(x))
+input_df['mcWeekness']=input_df['mcWeekness'].apply(lambda x: find_number(x))
 input_df['mcPassPrec']=input_df['mcPassPrec'].apply(lambda x: find_number(x))
 input_df = convertEachColumnToInteger(input_df)
 print("The type of input_df['mcStrength'] is :{}".format(type(input_df['mcStrength'].tolist())))
@@ -207,6 +208,7 @@ def display_balance_sheet(name):
    # plt.show()   
 
 input_df['mcStrength'] = input_df['mcStrength'].astype(int)
+input_df['mcWeekness'] = input_df['mcWeekness'].astype(int)
 #input_df['mcStrength'] = input_df['mcStrength'].apply(pd.to_numeric)
 #input_df['mcStrength'] = input_df['mcStrength'].astype('Int64')
 
