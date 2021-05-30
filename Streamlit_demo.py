@@ -133,22 +133,23 @@ print("The type of input_df['mcPiotski'] is :{}".format(type(input_df['mcPiotski
 marketCap_selected = st.sidebar.slider('Filter Mar Cap Rs.Cr. in range:', min(input_df['Mar Cap Rs.Cr.'].tolist()), max(input_df["Mar Cap Rs.Cr."].tolist()), value = [min(input_df['Mar Cap Rs.Cr.'].tolist()), max(input_df["Mar Cap Rs.Cr."].tolist())])
 
 MarCap_step_value = (max(input_df["Mar Cap Rs.Cr."].tolist()) - min(input_df['Mar Cap Rs.Cr.'].tolist()))/10
-defMinMarCapValue = (max(input_df["Mar Cap Rs.Cr."].tolist()) + min(input_df['Mar Cap Rs.Cr.'].tolist()))/2
-defMaxMarCapValue = (max(input_df["Mar Cap Rs.Cr."].tolist()) + min(input_df['Mar Cap Rs.Cr.'].tolist()))*(3/4)
-marketCap_selected_min = st.sidebar.number_input ('Select Minimum marketCap', min_value=min(input_df['Mar Cap Rs.Cr.'].tolist()), max_value=max(input_df["Mar Cap Rs.Cr."].tolist()), value=defMinMarCapValue, step=MarCap_step_value)
 
-marketCap_selected_max = st.sidebar.number_input ('Select Maximum marketCap', min_value=min(input_df['Mar Cap Rs.Cr.'].tolist()), max_value=max(input_df["Mar Cap Rs.Cr."].tolist()), value=defMaxMarCapValue, step=MarCap_step_value)
+marketCap_selected_min = min(input_df['Mar Cap Rs.Cr.'].tolist())
+marketCap_selected_min = st.sidebar.number_input ('Select Minimum marketCap', min_value=min(input_df['Mar Cap Rs.Cr.'].tolist()), max_value=max(input_df["Mar Cap Rs.Cr."].tolist()), value=min(input_df['Mar Cap Rs.Cr.'].tolist()), step=MarCap_step_value, format=None, key=None)
 
+marketCap_selected_max = max(input_df["Mar Cap Rs.Cr."].tolist())
+marketCap_selected_max = st.sidebar.number_input ('Select Maximum marketCap', min_value=min(input_df['Mar Cap Rs.Cr.'].tolist()), max_value=max(input_df["Mar Cap Rs.Cr."].tolist()), value=max(input_df["Mar Cap Rs.Cr."].tolist()), step=MarCap_step_value, format=None, key=None)
 
 peg_selected = st.sidebar.slider('Filter PEG in range:', min(input_df['PEG'].tolist()), max(input_df["PEG"].tolist()), value = [min(input_df['PEG'].tolist()), max(input_df["PEG"].tolist())])
 
 
 peg_step_value = (max(input_df["PEG"].tolist()) - min(input_df['PEG'].tolist()))/10
-defMinPEGValue = (max(input_df["PEG"].tolist()) + min(input_df['PEG'].tolist()))/4
-defMaxPEGValue = (max(input_df["PEG"].tolist()) + min(input_df['PEG'].tolist()))*(3/4)
-peg_selected_min = st.sidebar.number_input ('Select Minimum PEG', min_value=min(input_df['PEG'].tolist()), max_value=max(input_df["PEG"].tolist()), value=defMinPEGValue, step=peg_step_value)
 
-peg_selected_max = st.sidebar.number_input ('Select Maximum PEG', min_value=min(input_df['PEG'].tolist()), max_value=max(input_df["PEG"].tolist()), value=defMaxPEGValue, step=peg_step_value)
+peg_selected_min = min(input_df['PEG'].tolist())
+peg_selected_min = st.sidebar.number_input ('Select Minimum PEG', min_value=min(input_df['PEG'].tolist()), max_value=max(input_df["PEG"].tolist()), value=min(input_df["PEG"].tolist()), step=peg_step_value, format=None, key=None)
+
+peg_selected_max = max(input_df["PEG"].tolist())
+peg_selected_max = st.sidebar.number_input ('Select Maximum PEG', min_value=min(input_df['PEG'].tolist()), max_value=max(input_df["PEG"].tolist()), value=max(input_df["PEG"].tolist()), step=peg_step_value, format=None, key=None)
 
 
 
@@ -255,8 +256,8 @@ if st.sidebar.button('Filter with given parameters'):
     st.header('Filtered mcStrength, mcPiotski,  mcPassPrec:')
     input_df2 = input_df[input_df['Mar Cap Rs.Cr.']>=marketCap_selected_min]
     input_df2 = input_df2[input_df2['Mar Cap Rs.Cr.']<=marketCap_selected_max]
-    input_df2 = input_df2[input_df2['PEG']>=peg_selected_max]
-    input_df2 = input_df2[input_df2['PEG']<=peg_selected_min]
+    input_df2 = input_df2[input_df2['PEG']>=peg_selected_min]
+    input_df2 = input_df2[input_df2['PEG']<=peg_selected_max]
     input_df2 = input_df2[input_df['mcStrength']>=mcStrength_selected[0]]
     input_df2 = input_df2[input_df2['mcStrength']<=mcStrength_selected[1]]
     input_df2 = input_df2[input_df2['mcPassPrec']>=mcPassPrec_selected[0]]
