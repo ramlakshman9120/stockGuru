@@ -4,11 +4,11 @@ import base64
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-import yfinance as yf
+#import yfinance as yf
 import os
 import re as re
 import glob
-import ChromeDriverPython as cd
+#import ChromeDriverPython as cd
 
 st.title('STOCK-GURU GOVIND')
 
@@ -179,18 +179,6 @@ def filedownload(df):
 
 #st.markdown(filedownload(df_selected_sector), unsafe_allow_html=True)
 
-# https://pypi.org/project/yfinance/
-
-data = yf.download(
-        tickers = list(df_selected_sector[:10]),
-        period = "ytd",
-        interval = "1d",
-        group_by = 'ticker',
-        auto_adjust = True,
-        prepost = True,
-        threads = True,
-        proxy = None
-    )
 
 # Plot Closing Price of Query Symbol
 def price_plot(symbol):
@@ -294,9 +282,10 @@ if st.sidebar.button('Filter with given parameters'):
 
 company_names = sorted( input_df['Name'])
 selected_company_names = st.sidebar.multiselect('Select Name of company', company_names, company_names[0])
-	
-df_selected_company_names = input_df.loc[((input_df['Name'].isin(selected_company_names)))]
-
+if(selected_company_names):
+    df_selected_company_names = input_df.loc[((input_df['Name'].isin(selected_company_names)))]
+else:
+    df_selected_company_names = input_df
 
 if st.sidebar.button('Display Companies in Selected Sector'):
     st.header('Display paramters of Selected Sectors')
